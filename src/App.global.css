@@ -1,0 +1,43 @@
+/*
+ * @NOTE: Prepend a `~` to css file paths that are in your node_modules
+ *        See https://github.com/webpack-contrib/sass-loader#imports
+ */
+body {
+  position: relative;
+  color: white;
+  height: 100vh;
+  background-color: #2a292c;
+  font-family: sans-serif;
+  overflow-y: hidden;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.titlebar {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+.titlebarNoDrag {
+  -webkit-app-region: no-drag;
+}
+
+.closeBtn {
+  fill: #ababab;
+}
+
+.closeBtn:hover {
+  fill: white;
+  background: red;
+}
+
+.topBarBtn {
+  fill: #ababab;
+}
+
+.topBarBtn:hover {
+  background: #222222;
+}
