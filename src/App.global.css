@@ -2,12 +2,15 @@
  * @NOTE: Prepend a `~` to css file paths that are in your node_modules
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
+
+@import "~typeface-roboto/index.css";
+
 body {
   position: relative;
   color: white;
   height: 100vh;
   background-color: #2a292c;
-  font-family: sans-serif;
+  font-family: "Roboto";
   overflow-y: hidden;
   margin: 0;
   padding: 0;
@@ -31,7 +34,7 @@ body {
 
 .closeBtn:hover {
   fill: white;
-  background: red;
+  background: #e81123;
 }
 
 .topBarBtn {
@@ -39,5 +42,428 @@ body {
 }
 
 .topBarBtn:hover {
-  background: #222222;
+  fill: white;
+  background: #444444;
 }
+
+.sideBar {
+  border-right: solid 1px;
+  border-color: #1d1d1f;
+}
+
+.sideBarGroups {
+  height: 89vh;
+  overflow: hidden;
+  padding: 4px;
+}
+
+.sideBarGroups:hover {
+  overflow: auto;
+}
+
+input[type="text"] {
+  margin-right: 10px;
+  width: 100%;
+  border: 2px solid #6a696b;
+  border-radius: 4px;
+  margin: 0;
+  color: white;
+  outline: none;
+  padding: 8px;
+  box-sizing: border-box;
+  transition: 0.3s;
+  background-color: transparent;
+}
+
+input[type="text"]::placeholder {
+  /* Most modern browsers support this now. */
+  font-style: italic;
+}
+
+p {
+  margin: 0;
+}
+
+.sbtn {
+  background-color: transparent; /* Blue background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 7px 21px; /* Some padding */
+  font-size: 12px; /* Set a font size */
+  cursor: pointer; /* Mouse pointer on hover */
+  border-radius: 4px;
+  display: flex;
+  width: 100%;
+  margin: 2px;
+}
+
+.sbtn:hover {
+  background-color: #502399;
+}
+
+.sbtn:active {
+  border: 0;
+  outline: 0;
+}
+
+.sbtn:focus {
+  outline: 0;
+}
+
+.sbtnText {
+  padding-left: 8px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.btn {
+  background-color: #1d1d1f; /* Blue background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 7px; /* Some padding */
+  font-size: 12px; /* Set a font size */
+  cursor: pointer; /* Mouse pointer on hover */
+  border-radius: 4px;
+  display: flex;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.btn:disabled {
+  background-color: #2f2f2f;
+}
+
+.btn:disabled:hover {
+  background-color: #2f2f2f;
+}
+
+.btn:hover {
+  background-color: #502399;
+}
+
+.btn:active {
+  border: 0;
+  outline: 0;
+}
+
+.btn:focus {
+  outline: 0;
+}
+
+.lbtn {
+  background-color: #1d1d1f; /* Blue background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 7px 21px; /* Some padding */
+  font-size: 12px; /* Set a font size */
+  cursor: pointer; /* Mouse pointer on hover */
+  border-radius: 4px;
+  margin-left: 4px;
+  margin-right: 4px;
+  display: flex;
+}
+
+.lbtn:disabled {
+  background-color: #2f2f2f;
+}
+
+.lbtn:disabled:hover {
+  background-color: #2f2f2f;
+}
+
+.btnText {
+  padding-left: 5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.red:hover {
+  background-color: #ff7474 !important;
+}
+
+.lbtn:hover {
+  background-color: #502399;
+}
+
+.lbtn:active {
+  border: 0;
+  outline: 0;
+}
+
+.lbtn:focus {
+  outline: 0;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+/* Track
+::-webkit-scrollbar-track {
+}
+*/
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover
+::-webkit-scrollbar-thumb:hover {
+}
+*/
+
+.active > td {
+  background-color: #7232da !important;
+}
+
+.active {
+  background-color: #7232da !important;
+}
+
+.MuiPaper-root {
+  background-color: #2a292c !important;
+  color: white !important;
+  padding: 10px 40px;
+  text-align: center;
+}
+
+/* start context menu css*/
+
+.react-contexify {
+  position: fixed;
+  opacity: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  padding: 6px 0;
+  min-width: 200px;
+  z-index: 100;
+}
+.react-contexify__submenu--is-open,
+.react-contexify__submenu--is-open > .react-contexify__item__content {
+  color: white;
+  background-color: #4393e6;
+}
+.react-contexify__submenu--is-open > .react-contexify__submenu {
+  pointer-events: initial;
+  opacity: 1;
+}
+.react-contexify .react-contexify__submenu {
+  position: absolute;
+  /* negate padding */
+  top: -6px;
+  pointer-events: none;
+  transition: opacity 0.275s;
+}
+.react-contexify__submenu-arrow {
+  margin-left: auto;
+  font-size: 12px;
+}
+.react-contexify__separator {
+  width: 100%;
+  height: 1px;
+  cursor: default;
+  margin: 4px 0;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.react-contexify__will-leave--disabled {
+  pointer-events: none;
+}
+.react-contexify__item {
+  cursor: pointer;
+  position: relative;
+}
+.react-contexify__item:focus {
+  outline: 0;
+}
+.react-contexify__item:not(.react-contexify__item--disabled):hover > .react-contexify__item__content,
+.react-contexify__item:not(.react-contexify__item--disabled):focus > .react-contexify__item__content {
+  color: white;
+  background-color: #7232da;
+}
+.react-contexify__item:not(.react-contexify__item--disabled):hover > .react-contexify__submenu {
+  pointer-events: initial;
+  opacity: 1;
+}
+.react-contexify__item--disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+.react-contexify__item__content {
+  padding: 6px 12px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  white-space: nowrap;
+  color: #333;
+  position: relative;
+  border-radius: 4px;
+}
+
+.react-contexify__theme--dark {
+  background-color: #2a292c;
+}
+.react-contexify__theme--dark .react-contexify__submenu {
+  background-color: #2a292c;
+}
+.react-contexify__theme--dark .react-contexify__separator {
+  background-color: #eee;
+}
+.react-contexify__theme--dark .react-contexify__item__content {
+  color: #ffffff;
+}
+
+.react-contexify__theme--light .react-contexify__separator {
+  background-color: #eee;
+}
+.react-contexify__theme--light .react-contexify__submenu--is-open,
+.react-contexify__theme--light .react-contexify__submenu--is-open > .react-contexify__item__content {
+  color: #4393e6;
+  background-color: #e0eefd;
+}
+.react-contexify__theme--light .react-contexify__item:not(.react-contexify__item--disabled):hover > .react-contexify__item__content,
+.react-contexify__theme--light .react-contexify__item:not(.react-contexify__item--disabled):focus > .react-contexify__item__content {
+  color: #4393e6;
+  background-color: #e0eefd;
+}
+.react-contexify__theme--light .react-contexify__item__content {
+  color: #666;
+}
+
+@keyframes react-contexify__scaleIn {
+  from {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes react-contexify__scaleOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+}
+.react-contexify__will-enter--scale {
+  transform-origin: top left;
+  animation: react-contexify__scaleIn 0.3s;
+}
+
+.react-contexify__will-leave--scale {
+  transform-origin: top left;
+  animation: react-contexify__scaleOut 0.3s;
+}
+
+@keyframes react-contexify__fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes react-contexify__fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+.react-contexify__will-enter--fade {
+  animation: react-contexify__fadeIn 0.3s ease;
+}
+
+.react-contexify__will-leave--fade {
+  animation: react-contexify__fadeOut 0.3s ease;
+}
+
+@keyframes react-contexify__flipInX {
+  from {
+    transform: perspective(800px) rotate3d(1, 0, 0, 45deg);
+  }
+  to {
+    transform: perspective(800px);
+  }
+}
+@keyframes react-contexify__flipOutX {
+  from {
+    transform: perspective(800px);
+  }
+  to {
+    transform: perspective(800px) rotate3d(1, 0, 0, 45deg);
+    opacity: 0;
+  }
+}
+.react-contexify__will-enter--flip {
+  -webkit-backface-visibility: visible !important;
+  backface-visibility: visible !important;
+  transform-origin: top center;
+  animation: react-contexify__flipInX 0.3s;
+}
+
+.react-contexify__will-leave--flip {
+  transform-origin: top center;
+  animation: react-contexify__flipOutX 0.3s;
+  -webkit-backface-visibility: visible !important;
+  backface-visibility: visible !important;
+}
+
+@keyframes swing-in-top-fwd {
+  0% {
+    transform: rotateX(-100deg);
+    transform-origin: top;
+    opacity: 0;
+  }
+  100% {
+    transform: rotateX(0deg);
+    transform-origin: top;
+    opacity: 1;
+  }
+}
+@keyframes react-contexify__slideIn {
+  from {
+    opacity: 0;
+    transform: scale3d(1, 0.3, 1);
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes react-contexify__slideOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: scale3d(1, 0.3, 1);
+  }
+}
+.react-contexify__will-enter--slide {
+  transform-origin: top center;
+  animation: react-contexify__slideIn 0.3s;
+}
+
+.react-contexify__will-leave--slide {
+  transform-origin: top center;
+  animation: react-contexify__slideOut 0.3s;
+}
+
+/*# sourceMappingURL=ReactContexify.css.map */

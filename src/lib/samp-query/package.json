@@ -1,0 +1,26 @@
+{
+  "name": "samp-query",
+  "version": "0.1.5",
+  "description": "Simplified Query API for SAMP",
+  "main": "samp-query.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JJJ4n/node-samp-query.git"
+  },
+  "keywords": [
+    "samp",
+    "query",
+    "util",
+    "tool"
+  ],
+  "author": "JJJan <rueckert@trine.io>",
+  "bugs": {
+    "url": "https://github.com/JJJ4n/node-samp-query/issues"
+  },
+  "homepage": "https://github.com/JJJ4n/node-samp-query",
+  "dependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "ISC"
+}

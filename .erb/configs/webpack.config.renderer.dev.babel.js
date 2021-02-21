@@ -211,7 +211,6 @@ export default merge(baseConfig, {
     ],
   },
   plugins: [
-
     requiredByDLLConfig
       ? null
       : new webpack.DllReferencePlugin({

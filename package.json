@@ -1,6 +1,6 @@
 {
   "name": "orbit-launcher",
-  "productName": "OrbitLauncher",
+  "productName": "Orbit Launcher",
   "description": "Modern SA-MP client, designed by Flane and developed by Indian Ocean Roleplay™",
   "scripts": {
     "build": "concurrently \"yarn build:main\" \"yarn build:renderer\"",
@@ -8,7 +8,8 @@
     "build:renderer": "cross-env NODE_ENV=production webpack --config ./.erb/configs/webpack.config.renderer.prod.babel.js",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir src",
     "lint": "cross-env NODE_ENV=development eslint . --cache --ext .js,.jsx,.ts,.tsx",
-    "package": "rm -rf src/dist && yarn build && electron-builder build --publish never",
+    "package": "rd /s /q \"src/dist\" && yarn build && electron-builder build --publish never",
+    "deploy": "rd /s /q \"src/dist\"  && yarn build && electron-builder build --publish always",
     "postinstall": "node -r @babel/register .erb/scripts/CheckNativeDep.js && electron-builder install-app-deps && yarn cross-env NODE_ENV=development webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.babel.js && opencollective-postinstall && yarn-deduplicate yarn.lock",
     "start": "node -r @babel/register ./.erb/scripts/CheckPortInUse.js && cross-env yarn start:renderer",
     "start:main": "cross-env NODE_ENV=development electron -r ./.erb/scripts/BabelRegister ./src/main.dev.ts",
@@ -30,7 +31,7 @@
     ]
   },
   "build": {
-    "productName": "OrbitLauncher",
+    "productName": "Orbit Launcher",
     "appId": "com.iorp.OrbitLauncher",
     "files": [
       "dist/",
@@ -239,15 +240,20 @@
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
+    "axios": "^0.21.1",
     "electron-debug": "^3.1.0",
     "electron-log": "^4.2.4",
     "electron-updater": "^4.3.4",
     "history": "^5.0.0",
+    "ping": "^0.4.0",
     "react": "^17.0.1",
+    "react-contexify": "^5.0.0",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "regenerator-runtime": "^0.13.5",
-    "source-map-support": "^0.5.19"
+    "source-map-support": "^0.5.19",
+    "typeface-roboto": "^1.1.13"
   },
   "devEngines": {
     "node": ">=10.x",
