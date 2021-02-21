@@ -49,3 +49,4 @@ npm-debug.log.*
 *.sass.d.ts
 *.scss.d.ts
 /db.sqlite3
+/src/lib/samp-query
