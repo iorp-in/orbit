@@ -23,6 +23,7 @@ import RenameGroupDialog from "../components/dialogs/rename-group-dialog";
 import DeleteGroupDialog from "../components/dialogs/delete-group-dialog";
 import SettingsDialog from "../components/dialogs/settings";
 import getServerInfo from "../Services/samp";
+import AboutDialog from "../components/dialogs/about-dialog";
 
 let timeouts: NodeJS.Timeout[] = [];
 
@@ -32,6 +33,7 @@ const MainWindow = () => {
   const [snackBar, setSnackBar] = React.useState({ status: false, severity: "success", text: "Welcome to orbit launcher", duration: 3000 });
   const [loading, setLoading] = React.useState(0);
   const [filter, setFilter] = React.useState(false);
+  const [aboutDialog, setAboutDialog] = React.useState(false);
   const [createGroupDialog, setCreateGroupDialog] = React.useState(false);
   const [renameGroupDialog, setRenameGroupDialog] = React.useState(false);
   const [settingsDialog, setSettingsDialog] = React.useState(false);
@@ -296,6 +298,7 @@ const MainWindow = () => {
     <div>
       <Topbar counter={loading} />
       {createGroupDialog && <ShowCreateGroupDialog open={createGroupDialog} setOpen={setCreateGroupDialog} showNotification={showNotification} LoadGroups={LoadGroups} />}
+      {aboutDialog && <AboutDialog open={aboutDialog} setOpen={setAboutDialog} />}
       {renameGroupDialog && <RenameGroupDialog open={renameGroupDialog} setOpen={setRenameGroupDialog} showNotification={showNotification} selectedGroup={selectedGroup} LoadGroups={LoadGroups} />}
       {settingsDialog && <SettingsDialog open={settingsDialog} setOpen={setSettingsDialog} showNotification={showNotification} gtaSa={gtaSa} setGtaSA={setGtaSA} />}
       {deleteGroupDialog && (
@@ -357,6 +360,7 @@ const MainWindow = () => {
           setDeleteServerDialog={setDeleteServerDialog}
           handleConnect={handleConnect}
           setSettingsDialog={setSettingsDialog}
+          setAboutDialog={setAboutDialog}
         />
       </Grid>
       <Grid container direction="row">

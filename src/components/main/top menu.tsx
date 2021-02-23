@@ -16,6 +16,7 @@ const TopBarMenu = ({
   handleConnect,
   filter,
   setFilter,
+  setAboutDialog,
 }: {
   selected: string;
   selectedGroup: string;
@@ -28,6 +29,7 @@ const TopBarMenu = ({
   setAddServerDialog: React.Dispatch<React.SetStateAction<boolean>>;
   setSettingsDialog: React.Dispatch<React.SetStateAction<boolean>>;
   setDeleteServerDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  setAboutDialog: React.Dispatch<React.SetStateAction<boolean>>;
   handleConnect: () => Promise<number>;
 }) => {
   async function UpdateUsername(name: string) {
@@ -153,6 +155,24 @@ const TopBarMenu = ({
                 />
               </svg>
               <span className="btnText">Filter</span>
+            </button>
+          </Grid>
+          <Grid item>
+            <button
+              type="button"
+              className="btn"
+              style={{ backgroundColor: "transparent" }}
+              disabled={selectedGroup === "Hosted"}
+              onClick={() => {
+                setAboutDialog(true);
+              }}>
+              <svg width="14" height="14" viewBox="0 0 12 12" fill="#F5F5F5" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M12 6C12 9.31371 9.31371 12 6 12C2.68629 12 0 9.31371 0 6C0 2.68629 2.68629 0 6 0C9.31371 0 12 2.68629 12 6ZM5 6C5 5.44772 5.44772 5 6 5C6.55228 5 7 5.44772 7 6V9C7 9.55229 6.55228 10 6 10C5.44772 10 5 9.55229 5 9V6ZM6 4C6.55228 4 7 3.55228 7 3C7 2.44772 6.55228 2 6 2C5.44772 2 5 2.44772 5 3C5 3.55228 5.44772 4 6 4Z"
+                />
+              </svg>
             </button>
           </Grid>
         </Grid>
