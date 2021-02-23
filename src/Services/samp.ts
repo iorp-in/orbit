@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+import Ping from "ping";
 import sampQuery, { Options, SampResponse } from "../lib/samp-query/samp-query";
 
 const isNumber = (n: string) => {
@@ -31,14 +33,21 @@ export interface SampRes extends SampResponse {
 const getServerInfo = (server: string): Promise<SampRes> => {
   const options = GetServerOptions(server);
   return new Promise((resolve, reject) => {
-    const time = new Date().getTime();
-    sampQuery(options, async (err, resp) => {
-      const data = resp as SampRes;
-      if (err) return reject(err);
-      data.realaddress = server;
-      data.ping = new Date().getTime() - time;
-      return resolve(data);
-    });
+    let ping = 0;
+    Ping.promise
+      .probe(options.host)
+      .then((res) => {
+        ping = Number(res.min);
+        sampQuery(options, async (err, resp) => {
+          const data = resp as SampRes;
+          if (err) return reject(err);
+          data.realaddress = server;
+          data.ping = ping;
+          return resolve(data);
+        });
+        return null;
+      })
+      .catch(reject);
   });
 };
 
