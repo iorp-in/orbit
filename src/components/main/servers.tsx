@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Checkbox, FormControlLabel, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -16,6 +16,14 @@ import ServerInfoDialog from "../dialogs/server-info-dialog";
 const MENU_ID = "server-context-menu";
 
 const useStyles = makeStyles({
+  label: {
+    "& .MuiTypography-root": {
+      fontSize: "12px",
+    },
+  },
+  checkbox: {
+    color: "white !important",
+  },
   container: {
     maxHeight: "calc(100vh - 75px)",
     "& table": {
@@ -46,6 +54,7 @@ const useStyles = makeStyles({
 });
 
 const ServersList = ({
+  msg,
   servers,
   setSelectedID,
   setDeleteServerDialog,
@@ -54,18 +63,28 @@ const ServersList = ({
   handleConnect,
   LoadServerInfo,
   loading,
+  searchServer,
   showNotification,
+  filter,
 }: {
   servers: IServerData[];
   setSelectedID: React.Dispatch<React.SetStateAction<string>>;
   setDeleteServerDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  filter: boolean;
   selected: string;
+  msg: string;
+  searchServer: string;
   selectedGroup: string;
   handleConnect: (password?: undefined | string, rconpassword?: undefined | string) => Promise<number>;
   LoadServerInfo: (server: string) => Promise<unknown>;
   loading: number;
   showNotification: (type: "error" | "success" | "warning" | "info", text: string) => unknown;
 }) => {
+  const [filterMode, setFilterMode] = React.useState("");
+  const [filterLanguage, setFilterLanguage] = React.useState("");
+  const [filterNotFull, setFilterNotFull] = React.useState(false);
+  const [filterNotEmpty, setFilterNotEmpty] = React.useState(false);
+  const [filterNoPassword, setFilterNoPassword] = React.useState(false);
   const [serverInfoDialog, setServerInfoDialog] = React.useState(false);
   const [playersDialog, setPlayersDialog] = React.useState(false);
   const classes = useStyles();
@@ -201,7 +220,87 @@ const ServersList = ({
       </Menu>
       {servers.length < 1 && (
         <div style={{ margin: 0, position: "absolute", top: "50%", left: "56%", transform: "translate(-50%, -50%)" }}>
-          <h1>No Servers :(</h1>
+          <h1>{msg}</h1>
+        </div>
+      )}
+      {filter && (
+        <div style={{ padding: "4px", margin: "auto" }}>
+          <Grid container>
+            <Grid item>
+              <div style={{ padding: "4px" }}>
+                <input
+                  type="text"
+                  placeholder="Mode..."
+                  spellCheck="false"
+                  value={filterMode}
+                  onChange={(e) => {
+                    setFilterMode(e.target.value);
+                  }}
+                />
+              </div>
+            </Grid>
+            <Grid item>
+              <div style={{ padding: "4px" }}>
+                <input
+                  type="text"
+                  placeholder="Language..."
+                  spellCheck="false"
+                  value={filterLanguage}
+                  onChange={(e) => {
+                    setFilterLanguage(e.target.value);
+                  }}
+                />
+              </div>
+            </Grid>
+            <Grid item>
+              <FormControlLabel
+                className={classes.label}
+                control={
+                  <Checkbox
+                    className={classes.checkbox}
+                    checked={filterNotFull}
+                    onChange={(e) => {
+                      setFilterNotFull(e.target.checked);
+                    }}
+                  />
+                }
+                color="default"
+                label="Not Full"
+              />
+            </Grid>
+            <Grid item>
+              <FormControlLabel
+                className={classes.label}
+                control={
+                  <Checkbox
+                    className={classes.checkbox}
+                    checked={filterNotEmpty}
+                    onChange={(e) => {
+                      setFilterNotEmpty(e.target.checked);
+                    }}
+                  />
+                }
+                color="default"
+                label="Not Empty"
+              />
+            </Grid>
+            <Grid item>
+              <FormControlLabel
+                className={classes.label}
+                control={
+                  <Checkbox
+                    className={classes.checkbox}
+                    checked={filterNoPassword}
+                    onChange={(e) => {
+                      setFilterNoPassword(e.target.checked);
+                    }}
+                  />
+                }
+                color="default"
+                label="No Password"
+              />
+            </Grid>
+          </Grid>
         </div>
       )}
       {servers.length > 0 && (
@@ -217,68 +316,78 @@ const ServersList = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {servers.map((row, index) => {
-                return (
-                  <TableRow
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={`${row.address}-${String(index)}-servers`}
-                    onClick={() => {
-                      setSelectedID(row.address);
-                      if (loading > 0) {
-                        showNotification("warning", `wait for ${loading} servers to fetch details`);
-                      } else {
-                        LoadServerInfo(row.address);
-                      }
-                    }}
-                    onDoubleClick={() => {
-                      setServerInfoDialog(true);
-                    }}
-                    onContextMenu={(e) => {
-                      handleServerContext(row.address, e);
-                    }}
-                    className={row.address === selected ? "active" : "noactive"}
-                    selected={row.address === selected}>
-                    {columns.map((column, index2) => {
-                      const value = row[column.id];
-                      if (column.id === "lock") {
+              {servers
+                .filter((srv) => (searchServer.length < 1 ? srv : srv.hostname.toLocaleUpperCase().match(searchServer.toLocaleUpperCase().replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1"))))
+                .filter((srv) => (filterMode.length < 1 ? srv : srv.gamemode.toLocaleUpperCase().match(filterMode.toLocaleUpperCase().replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1"))))
+                .filter((srv) => (filterLanguage.length < 1 ? srv : srv.language.toLocaleUpperCase().match(filterLanguage.toLocaleUpperCase().replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1"))))
+                .filter((srv) => srv.group === selectedGroup)
+                .filter((srv) => (filterNotFull ? srv.onlinePlayers !== srv.maxPlayers : srv))
+                .filter((srv) => (filterNotEmpty ? srv.onlinePlayers !== 0 : srv))
+                .filter((srv) => (filterNoPassword ? !srv.lock : srv))
+                .filter((srv) => srv.group === selectedGroup)
+                .filter((srv) => srv.group === selectedGroup)
+                .map((row, index) => {
+                  return (
+                    <TableRow
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={`${row.address}-${String(index)}-servers`}
+                      onClick={() => {
+                        setSelectedID(row.address);
+                        if (loading > 0) {
+                          showNotification("warning", `wait for ${loading} servers to fetch details`);
+                        } else {
+                          LoadServerInfo(row.address);
+                        }
+                      }}
+                      onDoubleClick={() => {
+                        setServerInfoDialog(true);
+                      }}
+                      onContextMenu={(e) => {
+                        handleServerContext(row.address, e);
+                      }}
+                      className={row.address === selected ? "active" : "noactive"}
+                      selected={row.address === selected}>
+                      {columns.map((column, index2) => {
+                        const value = row[column.id];
+                        if (column.id === "lock") {
+                          return (
+                            <TableCell key={`${column.id}-${row.address}-${String(index2)}-colmuns-2`} align={column.align}>
+                              {value ? (
+                                <div style={{ textAlign: "center" }}>
+                                  <svg width="10" height="12" viewBox="0 0 10 12" fill="#ffAB00" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 8C6 8.55228 5.55228 9 5 9C4.44772 9 4 8.55228 4 8C4 7.44772 4.44772 7 5 7C5.55228 7 6 7.44772 6 8Z" />
+                                    <path
+                                      fillRule="evenodd"
+                                      clipRule="evenodd"
+                                      d="M2 3C2 1.34315 3.34315 0 5 0C6.65685 0 8 1.34315 8 3V4C9.10457 4 10 4.89543 10 6V10C10 11.1046 9.10457 12 8 12H2C0.89543 12 0 11.1046 0 10V6C0 4.89543 0.895432 4 2 4V3ZM2 5C1.44772 5 1 5.44772 1 6V10C1 10.5523 1.44772 11 2 11H8C8.55228 11 9 10.5523 9 10V6C9 5.44772 8.55228 5 8 5H2ZM7 4H3V3C3 1.89543 3.89543 1 5 1C6.10457 1 7 1.89543 7 3V4Z"
+                                    />
+                                  </svg>
+                                </div>
+                              ) : (
+                                <div style={{ textAlign: "center" }}>
+                                  <svg width="10" height="12" viewBox="0 0 10 12" fill="#ABABAB" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 8C6 8.55228 5.55228 9 5 9C4.44772 9 4 8.55228 4 8C4 7.44772 4.44772 7 5 7C5.55228 7 6 7.44772 6 8Z" />
+                                    <path
+                                      fillRule="evenodd"
+                                      clipRule="evenodd"
+                                      d="M2 3C2 1.34315 3.34315 0 5 0C6.65685 0 8 1.34315 8 3V4C9.10457 4 10 4.89543 10 6V10C10 11.1046 9.10457 12 8 12H2C0.89543 12 0 11.1046 0 10V6C0 4.89543 0.895432 4 2 4V3ZM2 5C1.44772 5 1 5.44772 1 6V10C1 10.5523 1.44772 11 2 11H8C8.55228 11 9 10.5523 9 10V6C9 5.44772 8.55228 5 8 5H2ZM7 4H3V3C3 1.89543 3.89543 1 5 1C6.10457 1 7 1.89543 7 3V4Z"
+                                    />
+                                  </svg>
+                                </div>
+                              )}
+                            </TableCell>
+                          );
+                        }
                         return (
-                          <TableCell key={`${column.id}-${row.address}-${String(index2)}-colmuns-2`} align={column.align}>
-                            {value ? (
-                              <div style={{ textAlign: "center" }}>
-                                <svg width="10" height="12" viewBox="0 0 10 12" fill="#ffAB00" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M6 8C6 8.55228 5.55228 9 5 9C4.44772 9 4 8.55228 4 8C4 7.44772 4.44772 7 5 7C5.55228 7 6 7.44772 6 8Z" />
-                                  <path
-                                    fillRule="evenodd"
-                                    clipRule="evenodd"
-                                    d="M2 3C2 1.34315 3.34315 0 5 0C6.65685 0 8 1.34315 8 3V4C9.10457 4 10 4.89543 10 6V10C10 11.1046 9.10457 12 8 12H2C0.89543 12 0 11.1046 0 10V6C0 4.89543 0.895432 4 2 4V3ZM2 5C1.44772 5 1 5.44772 1 6V10C1 10.5523 1.44772 11 2 11H8C8.55228 11 9 10.5523 9 10V6C9 5.44772 8.55228 5 8 5H2ZM7 4H3V3C3 1.89543 3.89543 1 5 1C6.10457 1 7 1.89543 7 3V4Z"
-                                  />
-                                </svg>
-                              </div>
-                            ) : (
-                              <div style={{ textAlign: "center" }}>
-                                <svg width="10" height="12" viewBox="0 0 10 12" fill="#ABABAB" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M6 8C6 8.55228 5.55228 9 5 9C4.44772 9 4 8.55228 4 8C4 7.44772 4.44772 7 5 7C5.55228 7 6 7.44772 6 8Z" />
-                                  <path
-                                    fillRule="evenodd"
-                                    clipRule="evenodd"
-                                    d="M2 3C2 1.34315 3.34315 0 5 0C6.65685 0 8 1.34315 8 3V4C9.10457 4 10 4.89543 10 6V10C10 11.1046 9.10457 12 8 12H2C0.89543 12 0 11.1046 0 10V6C0 4.89543 0.895432 4 2 4V3ZM2 5C1.44772 5 1 5.44772 1 6V10C1 10.5523 1.44772 11 2 11H8C8.55228 11 9 10.5523 9 10V6C9 5.44772 8.55228 5 8 5H2ZM7 4H3V3C3 1.89543 3.89543 1 5 1C6.10457 1 7 1.89543 7 3V4Z"
-                                  />
-                                </svg>
-                              </div>
-                            )}
+                          <TableCell key={`${column.id}-${row.address}-${String(index)}`} align={column.align}>
+                            {value}
                           </TableCell>
                         );
-                      }
-                      return (
-                        <TableCell key={`${column.id}-${row.address}-${String(index)}`} align={column.align}>
-                          {value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+                      })}
+                    </TableRow>
+                  );
+                })}
             </TableBody>
           </Table>
         </TableContainer>

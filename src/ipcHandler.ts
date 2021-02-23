@@ -19,7 +19,7 @@ const database = new sqlite3.Database("db.sqlite3", (err: Error | null) => {
       if (res1.length < 1) {
         database.all("CREATE TABLE IF NOT EXISTS servers (groupid text NOT NULL PRIMARY KEY, list text)", (err2, res2) => {
           if (err2 == null) {
-            database.exec('INSERT INTO servers (groupid, list) VALUES("Favorites","127.0.0.1:7777");');
+            database.exec('INSERT INTO servers (groupid, list) VALUES("Favorites","127.0.0.1:7777,server.iorp.in:7777");');
             database.exec('INSERT INTO servers (groupid, list) VALUES("Hosted","");');
           }
         });

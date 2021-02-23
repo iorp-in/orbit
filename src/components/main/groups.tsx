@@ -13,11 +13,8 @@ const SibeBarGroups = ({
   setCreateGroupDialog,
   setRenameGroupDialog,
   setDeleteGroupDialog,
-  setSelected,
   LoadGroupAllServers,
   LoadGroupAllHosted,
-  loading,
-  showNotification,
 }: {
   groups: string[];
   selectedGroup: string;
@@ -26,11 +23,8 @@ const SibeBarGroups = ({
   setRenameGroupDialog: React.Dispatch<React.SetStateAction<boolean>>;
   setDeleteGroupDialog: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedGroup: React.Dispatch<React.SetStateAction<string>>;
-  setSelected: React.Dispatch<React.SetStateAction<string>>;
   LoadGroupAllServers: (group: string) => Promise<unknown>;
   LoadGroupAllHosted: () => Promise<unknown>;
-  loading: number;
-  showNotification: (type: "error" | "success" | "warning" | "info", text: string) => unknown;
 }) => {
   const { show } = useContextMenu({ id: MENU_ID });
 
@@ -91,12 +85,7 @@ const SibeBarGroups = ({
             type="button"
             className={selectedGroup === "Favorites" ? "sbtn active" : "sbtn"}
             onClick={async () => {
-              setSelected("");
-              if (loading > 0) {
-                showNotification("warning", `wait for ${loading} servers to fetch details`);
-              } else {
-                LoadGroupAllServers("Favorites");
-              }
+              LoadGroupAllServers("Favorites");
             }}>
             <svg width="14" height="11" viewBox="0 0 16 14" fill="#F5F5F5" xmlns="http://www.w3.org/2000/svg">
               <path d="M8 0.999634C7.16434 0.371945 6.12561 0 5 0C2.23858 0 0 2.23858 0 5C0 5.47652 0.0666617 5.93748 0.191168 6.37405C1.22181 10.1739 6.13016 13.6391 7.77079 13.9736C7.84439 13.9909 7.92113 14 8 14C8.07887 14 8.15561 13.9909 8.22921 13.9736C9.86984 13.6391 14.7782 10.1739 15.8088 6.37405C15.9333 5.93748 16 5.47653 16 5C16 2.23858 13.7614 0 11 0C9.87439 0 8.83566 0.371945 8 0.999634Z" />
@@ -107,12 +96,7 @@ const SibeBarGroups = ({
             type="button"
             className={selectedGroup === "Hosted" ? "sbtn active" : "sbtn"}
             onClick={async () => {
-              setSelected("");
-              if (loading > 0) {
-                showNotification("warning", `wait for ${loading} servers to fetch details`);
-              } else {
-                LoadGroupAllHosted();
-              }
+              LoadGroupAllHosted();
             }}>
             <svg width="14" height="11" viewBox="0 0 12 14" fill="#F5F5F5" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -131,12 +115,7 @@ const SibeBarGroups = ({
                   type="button"
                   className={selectedGroup === name ? "sbtn active" : "sbtn"}
                   onClick={async () => {
-                    setSelected("");
-                    if (loading > 0) {
-                      showNotification("warning", "wait for server fetch complete");
-                    } else {
-                      LoadGroupAllServers(name);
-                    }
+                    LoadGroupAllServers(name);
                   }}
                   onContextMenu={(e) => {
                     handleGroupContext(name, e);

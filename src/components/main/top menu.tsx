@@ -14,6 +14,8 @@ const TopBarMenu = ({
   setDeleteServerDialog,
   setSettingsDialog,
   handleConnect,
+  filter,
+  setFilter,
 }: {
   selected: string;
   selectedGroup: string;
@@ -21,6 +23,8 @@ const TopBarMenu = ({
   setUsername: React.Dispatch<React.SetStateAction<string>>;
   showNotification: (type: "error" | "success" | "warning" | "info", text: string, duration?: number | undefined) => void;
   LoadServer: (group: string) => number;
+  filter: boolean;
+  setFilter: React.Dispatch<React.SetStateAction<boolean>>;
   setAddServerDialog: React.Dispatch<React.SetStateAction<boolean>>;
   setSettingsDialog: React.Dispatch<React.SetStateAction<boolean>>;
   setDeleteServerDialog: React.Dispatch<React.SetStateAction<boolean>>;
@@ -130,7 +134,12 @@ const TopBarMenu = ({
             />
           </Grid>
           <Grid item>
-            <button type="button" className="lbtn">
+            <button
+              type="button"
+              className="lbtn"
+              onClick={() => {
+                setFilter(!filter);
+              }}>
               <svg width="14" height="14" viewBox="0 0 14 14" fill="#F5F5F5" xmlns="http://www.w3.org/2000/svg">
                 <path
                   fillRule="evenodd"

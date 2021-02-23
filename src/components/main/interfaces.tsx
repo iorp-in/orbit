@@ -43,12 +43,15 @@ export interface IServerData {
   hostname: string;
   lock: boolean;
   address: string;
+  onlinePlayers: number;
+  maxPlayers: number;
   players: string;
   ping: number;
   gamemode: string;
   language: string;
   map: string;
   web: string;
+  group: string;
   playersList: IPlayers[];
 }
 
@@ -69,9 +72,12 @@ export function createData(
   language: string,
   playersList: IPlayers[],
   map: string,
-  web: string
+  web: string,
+  group: string,
+  onlinePlayers: number,
+  maxPlayers: number
 ): IServerData {
-  return { hostname, lock, address, players, ping, gamemode, language, playersList, map, web };
+  return { hostname, lock, address, players, ping, gamemode, language, playersList, map, web, group, onlinePlayers, maxPlayers };
 }
 
 export interface IServers {
