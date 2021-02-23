@@ -16,6 +16,6 @@
   "license": "MIT",
   "dependencies": {
     "@types/sqlite3": "^3.1.7",
-    "sqlite3": "^5.0.1"
+    "sqlite3": "^5.0.2"
   }
 }
