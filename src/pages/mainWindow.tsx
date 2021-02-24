@@ -75,6 +75,7 @@ const MainWindow = () => {
           const serversArray: string[] = (res.data as string).split("\n");
           serversArray.push("server.iorp.in:7777");
           if (serversArray.length < 1) resolve(true);
+          setServersList(serversArray.join(","));
           let count = 0;
           for (const srv of serversArray) {
             if (srv.length > 0) {
@@ -142,6 +143,7 @@ const MainWindow = () => {
             if (resp2[0].list.length < 1) resolve(true);
             const serversArray = resp2[0].list.split(",");
             if (serversArray.length < 1) resolve(true);
+            setServersList(serversArray.join(","));
             let count = 0;
             for (const srv of serversArray) {
               if (srv.length > 0) {
@@ -365,6 +367,7 @@ const MainWindow = () => {
       </Grid>
       <Grid container direction="row">
         <SibeBarGroups
+          setSelectedID={setSelectedID}
           groups={groups}
           selectedGroup={selectedGroup}
           LoadServer={LoadServer}

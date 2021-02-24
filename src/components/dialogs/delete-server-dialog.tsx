@@ -29,7 +29,8 @@ const DeleteServerDialog = ({
   const handleConfirm = async () => {
     if (serversList.length < 0) {
       setOpen(false);
-      await LoadServer(selectedGroup);
+      LoadServer(selectedGroup);
+      showNotification("warning", "unable to delete server.");
       return 1;
     }
     let newServersList = "";
@@ -37,7 +38,7 @@ const DeleteServerDialog = ({
     if (!servers.includes(selected)) {
       showNotification("warning", "server does not exist.");
       setOpen(false);
-      await LoadServer(selectedGroup);
+      LoadServer(selectedGroup);
       return 1;
     }
     servers = servers.filter((res) => res !== selected);
@@ -45,7 +46,7 @@ const DeleteServerDialog = ({
     await sendAsync(`update servers set list = "${newServersList}" where groupid = "${selectedGroup}"`);
     showNotification("success", `server ${selected} has been removed!`);
     setOpen(false);
-    await LoadServer(selectedGroup);
+    LoadServer(selectedGroup);
     setSelectedID("");
     return 1;
   };

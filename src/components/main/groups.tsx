@@ -9,6 +9,7 @@ const SibeBarGroups = ({
   groups,
   selectedGroup,
   LoadServer,
+  setSelectedID,
   setSelectedGroup,
   setCreateGroupDialog,
   setRenameGroupDialog,
@@ -22,6 +23,7 @@ const SibeBarGroups = ({
   setCreateGroupDialog: React.Dispatch<React.SetStateAction<boolean>>;
   setRenameGroupDialog: React.Dispatch<React.SetStateAction<boolean>>;
   setDeleteGroupDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedID: React.Dispatch<React.SetStateAction<string>>;
   setSelectedGroup: React.Dispatch<React.SetStateAction<string>>;
   LoadGroupAllServers: (group: string) => Promise<unknown>;
   LoadGroupAllHosted: () => Promise<unknown>;
@@ -85,6 +87,7 @@ const SibeBarGroups = ({
             type="button"
             className={selectedGroup === "Favorites" ? "sbtn active" : "sbtn"}
             onClick={async () => {
+              setSelectedID("");
               LoadGroupAllServers("Favorites");
             }}>
             <svg width="14" height="11" viewBox="0 0 16 14" fill="#F5F5F5" xmlns="http://www.w3.org/2000/svg">
@@ -96,6 +99,7 @@ const SibeBarGroups = ({
             type="button"
             className={selectedGroup === "Hosted" ? "sbtn active" : "sbtn"}
             onClick={async () => {
+              setSelectedID("");
               LoadGroupAllHosted();
             }}>
             <svg width="14" height="11" viewBox="0 0 12 14" fill="#F5F5F5" xmlns="http://www.w3.org/2000/svg">
@@ -115,9 +119,11 @@ const SibeBarGroups = ({
                   type="button"
                   className={selectedGroup === name ? "sbtn active" : "sbtn"}
                   onClick={async () => {
+                    setSelectedID("");
                     LoadGroupAllServers(name);
                   }}
                   onContextMenu={(e) => {
+                    setSelectedID("");
                     handleGroupContext(name, e);
                   }}>
                   <svg width="14" height="11" viewBox="0 0 14 11" fill="#F5F5F5" xmlns="http://www.w3.org/2000/svg">
@@ -133,6 +139,7 @@ const SibeBarGroups = ({
             type="button"
             className="lbtn"
             onClick={() => {
+              setSelectedID("");
               setCreateGroupDialog(true);
             }}>
             <span className="btnText">Create Group</span>
