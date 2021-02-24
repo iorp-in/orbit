@@ -64,7 +64,7 @@ body {
 input[type="text"] {
   margin-right: 10px;
   width: 100%;
-  border: 2px solid #6a696b;
+  border: 1px solid #6a696b;
   border-radius: 4px;
   margin: 0;
   color: white;

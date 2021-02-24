@@ -109,6 +109,11 @@ const ServersList = ({
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
   const handleItemPlayers = (_args: ItemParams<any, any>) => {
+    const fServers = servers.filter((res) => res.address === selected);
+    if (fServers.length < 1) return 1;
+    const serverdata = fServers[0];
+    if (serverdata.onlinePlayers < 1) return showNotification("warning", "there is no player in this server!");
+    if (serverdata.onlinePlayers > 99) return showNotification("warning", "can not show players list from this server!");
     setPlayersDialog(true);
     return 1;
   };
