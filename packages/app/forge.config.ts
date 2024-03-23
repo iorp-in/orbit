@@ -42,7 +42,7 @@ const config: ForgeConfig = {
         author: "Vijay Meena",
         description: "Modern SA-MP launcher",
         iconUrl:
-          "https://raw.githubusercontent.com/samarmeena/orbit/assets/icon.ico",
+          "https://raw.githubusercontent.com/samarmeena/orbit/main/assets/icon.ico",
         setupIcon: "images/icon.ico",
       }),
     },
