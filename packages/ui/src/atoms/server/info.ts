@@ -8,7 +8,7 @@ import { ServerInfo } from "@/types/server-info";
 import { atom } from "jotai";
 import { atomFamily } from "jotai/utils";
 
-export const hostInfoAtom = atomFamily(
-  ({}: { hostname: string }) => atom<ServerInfo | null>(null),
-  (a, b) => a.hostname === b.hostname,
+export const serverInfoAtom = atomFamily(
+  ({}: { address: string }) => atom<ServerInfo | null>(null),
+  (a, b) => a.address === b.address,
 );

@@ -6,8 +6,8 @@
  * Licensed under the Apache License. See License.txt in the project root for license information.
  * --------------------------------------------------------------------------------------------------------
  */
-import { serverHostAtom } from "@/atoms/server/host";
-import { hostInfoAtom } from "@/atoms/server/host-info";
+import { serverInfoAtom } from "@/atoms/server/info";
+import { serverAtom } from "@/atoms/server/server";
 import { serversAtom } from "@/atoms/server/servers";
 import api from "@/lib/api";
 import { ServerInfo } from "@/types/server-info";
@@ -18,15 +18,15 @@ import React, { useCallback } from "react";
 export default function ServerUpdate() {
   const store = useStore();
   const servers = useAtomValue(serversAtom);
-  const host = useAtomValue(serverHostAtom);
+  const server = useAtomValue(serverAtom);
 
   const Refresh = useCallback(async () => {
-    for await (const hostname of servers) {
-      const resp = await api?.invoke("server-info", hostname);
+    for await (const address of servers) {
+      const resp = await api?.invoke("server-info", address);
       if (resp) {
-        const prev = store.get(hostInfoAtom({ hostname }));
+        const prev = store.get(serverInfoAtom({ address }));
         if (!equal(prev, resp)) {
-          store.set(hostInfoAtom({ hostname }), resp);
+          store.set(serverInfoAtom({ address }), resp);
         }
       }
     }
@@ -40,21 +40,21 @@ export default function ServerUpdate() {
 
   React.useEffect(() => {
     const intervalId = setInterval(() => {
-      if (host) {
-        void api?.invoke("server-info", host.address, true);
+      if (server) {
+        void api?.invoke("server-info", server.address, true);
       }
     }, 2000);
 
     return () => {
       clearInterval(intervalId);
     };
-  }, [host]);
+  }, [server]);
 
   React.useEffect(() => {
     const removeEventListener = api?.receive(
       "server-info",
-      (hostname: string, payload: ServerInfo) => {
-        store.set(hostInfoAtom({ hostname }), payload);
+      (address: string, payload: ServerInfo) => {
+        store.set(serverInfoAtom({ address }), payload);
       },
     );
 

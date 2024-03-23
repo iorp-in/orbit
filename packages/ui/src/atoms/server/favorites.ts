@@ -17,7 +17,7 @@ export enum FavoritesServerActionType {
 }
 
 type AddAction = {
-  hostname: string;
+  address: string;
   type: FavoritesServerActionType.ADD;
 };
 
@@ -33,7 +33,7 @@ export const serverFavoritesAtomReducer = (prev: string[], action: Actions) => {
 
   switch (action.type) {
     case FavoritesServerActionType.ADD: {
-      arr.push(action.hostname);
+      arr.push(action.address);
       break;
     }
 

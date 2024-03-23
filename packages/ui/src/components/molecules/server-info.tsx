@@ -6,7 +6,7 @@
  */
 import { ScrollArea } from "../ui/scroll-area";
 import { Separator } from "../ui/separator";
-import { serverHostAtom } from "@/atoms/server/host";
+import { serverAtom } from "@/atoms/server/server";
 import {
   Table,
   TableBody,
@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 import { useAtomValue } from "jotai";
 
 export default function ServerPlayerList() {
-  const server = useAtomValue(serverHostAtom);
+  const server = useAtomValue(serverAtom);
 
   const lagcomp = server?.rules?.["lagcomp"] ?? "-";
   const mapname = server?.rules?.["mapname"] ?? "-";

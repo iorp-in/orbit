@@ -27,7 +27,7 @@ type AddAction = {
 };
 
 type AddServerAction = {
-  hostname: string;
+  address: string;
   groupId: number;
   type: GroupActionType.ADD_SERVER;
 };
@@ -71,7 +71,7 @@ export const groupsAtomReducer = (prev: Group[], action: Actions) => {
     case GroupActionType.ADD_SERVER: {
       const servers = arr[action.groupId]?.servers;
       if (servers) {
-        servers.push(action.hostname);
+        servers.push(action.address);
       }
       break;
     }

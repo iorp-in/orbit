@@ -25,7 +25,7 @@ import {
   serverFavoritesAtomReducer,
 } from "@/atoms/server/favorites";
 import { serverSearchFilterAtom } from "@/atoms/server/filters";
-import { serverHostAtom } from "@/atoms/server/host";
+import { serverAtom } from "@/atoms/server/server";
 import { serversAtom } from "@/atoms/server/servers";
 import { usernameAtom } from "@/atoms/username";
 import api from "@/lib/api";
@@ -46,7 +46,7 @@ import { useReducerAtom } from "jotai/utils";
 export default function TopNav() {
   const serverIndex = useAtomValue(serverIndexAtom);
   const groupIndex = useAtomValue(groupIndexAtom);
-  const server = useAtomValue(serverHostAtom);
+  const server = useAtomValue(serverAtom);
   const servers = useAtomValue(serversAtom);
   const folder = useAtomValue(GTAFolderAtom);
   const setSearch = useSetAtom(serverSearchFilterAtom);
@@ -105,8 +105,8 @@ export default function TopNav() {
   };
 
   const handleRefresh = () => {
-    servers.forEach((hostname) => {
-      void api?.invoke("server-info", hostname, true);
+    servers.forEach((address) => {
+      void api?.invoke("server-info", address, true);
     });
   };
 

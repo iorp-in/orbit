@@ -13,6 +13,8 @@ const queue = new Set<string>();
 const processed = new Store();
 let isProcessing = false;
 
+const hex = (text: string) => Buffer.from(text, "utf8").toString("hex");
+
 async function processQueue() {
   /**
    * Skip if already in process
@@ -37,49 +39,48 @@ async function processQueue() {
     /**
      * Get host ip and port
      */
-    const hostname = Array.from(queue)[0];
-    const [host, port] = hostname.split(":");
+    const address = Array.from(queue)[0];
+    const [host, port] = address.split(":");
 
     /**
      * Throw error if host is not found
      */
-    if (!host) {
-      throw Error(`Invalid host "${host}"`);
+    if (!host || !port || !Number.isFinite(Number(port))) {
+      throw Error(`Invalid server "${address}"`);
     }
 
     /**
      * Store null to skip future processing
      */
 
-    processed.set(hostname, null);
+    processed.set(hex(address), null);
 
     /**
      * Delete entry from queue
      */
-    queue.delete(hostname);
+    queue.delete(address);
 
     /**
      * Fetch server info
      */
-    const portNumber = Number(port);
     const serverInfo = await sampInfo({
       host: host,
-      port: Number.isFinite(portNumber) ? portNumber : 7777,
+      port: Number(port),
     });
 
     /**
      * Store locally
      */
 
-    processed.set(hostname, serverInfo);
+    processed.set(hex(address), serverInfo);
 
     /**
      * Send information to render
      */
-    mainWindow?.webContents.send("server-info", hostname, serverInfo);
+    mainWindow?.webContents.send("server-info", address, serverInfo);
   } catch (err) {
     const error = err as Error;
-    process.stdout.write(error.message);
+    console.log(error.message);
   } finally {
     /**
      * End processing
@@ -105,15 +106,15 @@ ipcMain.on("server-info-reset-queue", () => {
 /**
  * Handle server info request
  */
-ipcMain.handle("server-info", (event, hostname: string, force?: boolean) => {
-  if (typeof hostname !== "string" || hostname.length === 0) {
+ipcMain.handle("server-info", (event, address: string, force?: boolean) => {
+  if (typeof address !== "string" || address.length === 0) {
     return null;
   }
 
-  if (!processed.has(hostname) || force) {
-    queue.add(hostname);
+  if (!processed.has(hex(address)) || force) {
+    queue.add(address);
     void processQueue();
   }
 
-  return processed.get(hostname) ?? null;
+  return processed.get(hex(address)) ?? null;
 });

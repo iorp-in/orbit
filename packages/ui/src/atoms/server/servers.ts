@@ -16,8 +16,8 @@ import {
   serverNotPingFilterAtom,
   serverSearchFilterAtom,
 } from "./filters";
-import { hostInfoAtom } from "./host-info";
 import { serverHostedLoadableAtom } from "./hosted";
+import { serverInfoAtom } from "./info";
 import { ServerInfo } from "@/types/server-info";
 import { atom } from "jotai";
 
@@ -42,10 +42,10 @@ export const serversAtom = atom<string[]>((get) => {
 
 export const serversInfoAtom = atom((get) => {
   const raw = get(serversAtom);
-  const servers = raw.map((hostname): ServerInfo => {
+  const servers = raw.map((address): ServerInfo => {
     return (
-      get(hostInfoAtom({ hostname })) ?? {
-        address: hostname,
+      get(serverInfoAtom({ address })) ?? {
+        address,
       }
     );
   });

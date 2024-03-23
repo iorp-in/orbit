@@ -5,11 +5,11 @@
  * --------------------------------------------------------------------------------------------------------
  */
 import { serverIndexAtom } from ".";
-import { serversInfoAtom } from "./servers";
+import { serversFilteredAtom } from "./servers";
 import { atom } from "jotai";
 
-export const serverHostAtom = atom((get) => {
-  const servers = get(serversInfoAtom);
+export const serverAtom = atom((get) => {
+  const servers = get(serversFilteredAtom);
   const index = get(serverIndexAtom);
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

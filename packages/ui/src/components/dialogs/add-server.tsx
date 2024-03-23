@@ -40,8 +40,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const formSchema = z.object({
-  hostname: z.string().min(1, {
-    message: "Hostname is required",
+  address: z.string().min(1, {
+    message: "Server address is required",
   }),
 });
 
@@ -61,22 +61,29 @@ export default function AddServer({ children }: { children: React.ReactNode }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      hostname: "",
+      address: "",
     },
   });
 
   const [open, setOpen] = React.useState(false);
 
-  const handleSubmit = ({ hostname }: z.infer<typeof formSchema>) => {
+  const handleSubmit = ({ address }: z.infer<typeof formSchema>) => {
+    const [host, port = "7777"] = address.split(":");
+    if (!host) {
+      return;
+    }
+
+    const server = `${host}:${port}`;
+
     if (isGroup) {
       groupDispatch({
-        hostname,
+        address: server,
         groupId: groupIndex,
         type: GroupActionType.ADD_SERVER,
       });
     } else {
       favoriteDispatch({
-        hostname,
+        address: server,
         type: FavoritesServerActionType.ADD,
       });
     }
@@ -97,11 +104,11 @@ export default function AddServer({ children }: { children: React.ReactNode }) {
             <div className="space-y-2 py-4">
               <FormField
                 control={form.control}
-                name="hostname"
+                name="address"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input placeholder="hostname:port" {...field} />
+                      <Input placeholder="host:port" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
