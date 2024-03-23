@@ -8,7 +8,7 @@ import "./ipc-handlers/index.js";
 import electron from "electron";
 import serve from "electron-serve";
 import path from "path";
-import { updateElectronApp, UpdateSourceType } from "update-electron-app";
+import { updateElectronApp } from "update-electron-app";
 
 const { app, BrowserWindow } = electron;
 
@@ -21,12 +21,7 @@ if (require("electron-squirrel-startup")) app.quit();
  * Auto update
  */
 if (app.isPackaged) {
-  updateElectronApp({
-    updateSource: {
-      type: UpdateSourceType.ElectronPublicUpdateService,
-      repo: "samarmeena/orbit",
-    },
-  });
+  updateElectronApp();
 }
 
 /**

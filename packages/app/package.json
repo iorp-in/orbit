@@ -5,6 +5,7 @@
   "license": "Apache-2.0",
   "author": "Vijay Meena <vijayymmeena@gmail.com> (https://github.com/samarmeena)",
   "main": "dist/index.js",
+  "repository": "samarmeena/orbit",
   "scripts": {
     "build": "npm-run-all clean compile",
     "clean": "rimraf dist",
