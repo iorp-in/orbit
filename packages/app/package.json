@@ -1,0 +1,46 @@
+{
+  "name": "orbitorbit-launcher",
+  "version": "2.0.0",
+  "description": "Modern SA-MP launcher",
+  "license": "Apache-2.0",
+  "author": "Vijay Meena <vijayymmeena@gmail.com> (https://github.com/samarmeena)",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npm-run-all clean compile",
+    "clean": "rimraf dist",
+    "compile": "tsup --external electron --external iconv-lite src/index.ts src/preload/index.ts",
+    "dev": "nodemon --watch src -e ts,mts,js,mjs,tsx,jsx --exec npm-run-all build start",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish"
+  },
+  "dependencies": {
+    "electron-serve": "^1.3.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^8.2.0",
+    "iconv-lite": "^0.6.3",
+    "update-electron-app": "^3.0.0"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.3.1",
+    "@electron-forge/maker-dmg": "^7.3.1",
+    "@electron-forge/maker-squirrel": "^7.3.1",
+    "@electron-forge/maker-zip": "^7.3.1",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.3.1",
+    "@electron-forge/plugin-fuses": "^7.3.1",
+    "@electron-forge/publisher-github": "^7.3.1",
+    "@electron-forge/publisher-s3": "^7.3.1",
+    "@typescript-eslint/eslint-plugin": "^7.3.1",
+    "@typescript-eslint/parser": "^7.3.1",
+    "electron": "^29.1.5",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "nodemon": "^3.1.0",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^5.0.5",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.3"
+  }
+}
