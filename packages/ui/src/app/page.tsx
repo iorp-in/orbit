@@ -55,7 +55,7 @@ export default function Page() {
           <Sidebar />
         </ResizablePanel>
         <ResizableHandle withHandle />
-        <ResizablePanel>
+        <ResizablePanel minSize={50}>
           <ServerList />
         </ResizablePanel>
         <ResizableHandle withHandle />
