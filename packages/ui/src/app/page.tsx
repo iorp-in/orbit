@@ -10,25 +10,37 @@ import ServerInfo from "@/components/molecules/server-info";
 import ServerList from "@/components/molecules/server-list";
 import { Sidebar } from "@/components/molecules/sidebar";
 import TopNav from "@/components/molecules/top-nav";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 import React from "react";
+import { PanelGroupOnLayout } from "react-resizable-panels";
 
 export default function Page() {
+  const onLayout: PanelGroupOnLayout = (layout) => {
+    layout;
+  };
+
   return (
     <div className="min-h-screen">
       <div className="border-b p-2 pt-10">
         <TopNav />
       </div>
-      <div className="flex">
-        <div className="w-full max-w-[160px]">
+      <ResizablePanelGroup direction="horizontal" onLayout={onLayout}>
+        <ResizablePanel defaultSize={20}>
           <Sidebar />
-        </div>
-        <div className="flex-1 overflow-hidden border-l border-r">
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel>
           <ServerList />
-        </div>
-        <div className="w-full max-w-[200px]">
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel defaultSize={20}>
           <ServerInfo />
-        </div>
-      </div>
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </div>
   );
 }

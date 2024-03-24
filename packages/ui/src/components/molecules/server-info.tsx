@@ -17,11 +17,13 @@ import {
 } from "@/components/ui/table";
 import api from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { ScrollAreaScrollbar } from "@radix-ui/react-scroll-area";
 import { useAtomValue } from "jotai";
 
 export default function ServerPlayerList() {
   const server = useAtomValue(serverAtom);
 
+  const address = server?.address ?? "-";
   const lagcomp = server?.rules?.["lagcomp"] ?? "-";
   const mapname = server?.rules?.["mapname"] ?? "-";
   const version = server?.rules?.["version"] ?? "-";
@@ -31,8 +33,10 @@ export default function ServerPlayerList() {
 
   return (
     <>
-      <ScrollArea className="h-[calc(100vh-88px-237px)]">
-        <Table className="text-xs">
+      <ScrollArea className="h-[calc(100vh-96px-260px)]">
+        <ScrollAreaScrollbar orientation="vertical" />
+        <ScrollAreaScrollbar orientation="horizontal" />
+        <Table className="whitespace-nowrap text-xs">
           <TableHeader>
             <TableRow>
               <TableHead>Player</TableHead>
@@ -50,8 +54,10 @@ export default function ServerPlayerList() {
         </Table>
       </ScrollArea>
       <Separator />
-      <div>
-        <Table className="text-xs">
+      <ScrollArea className="h-[268px]">
+        <ScrollAreaScrollbar orientation="vertical" />
+        <ScrollAreaScrollbar orientation="horizontal" />
+        <Table className="whitespace-nowrap text-xs">
           <TableHeader>
             <TableRow>
               <TableHead>Rule</TableHead>
@@ -59,6 +65,10 @@ export default function ServerPlayerList() {
             </TableRow>
           </TableHeader>
           <TableBody>
+            <TableRow>
+              <TableCell>address</TableCell>
+              <TableCell>{address}</TableCell>
+            </TableRow>
             <TableRow>
               <TableCell>lagcomp</TableCell>
               <TableCell>{lagcomp}</TableCell>
@@ -98,7 +108,7 @@ export default function ServerPlayerList() {
             </TableRow>
           </TableBody>
         </Table>
-      </div>
+      </ScrollArea>
     </>
   );
 }
