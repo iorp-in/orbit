@@ -4,20 +4,15 @@
  * Licensed under the Apache License. See License.txt in the project root for license information.
  * --------------------------------------------------------------------------------------------------------
  */
+import { OpenMpServer } from "@/types/openmp-server";
 import { atom } from "jotai";
 import { loadable } from "jotai/utils";
 
 export const serverHostedAtom = atom(async () => {
   try {
-    const response = await fetch(
-      "https://raw.githubusercontent.com/samarmeena/orbit/main/hosted_tab.txt",
-    );
-
-    const body = await response.text();
-    return body
-      .split("\n")
-      .filter((t) => t.length > 0)
-      .sort(() => Math.random() - 0.5);
+    const response = await fetch("https://api.open.mp/servers");
+    const body = (await response.json()) as OpenMpServer[];
+    return body.map((s) => s.ip).sort(() => Math.random() - 0.5);
   } catch (err) {
     return [];
   }
