@@ -76,7 +76,7 @@ export default function ServerList() {
     <ScrollArea className="h-[calc(100vh-88px)]">
       <ScrollBar orientation="vertical" />
       <ScrollBar orientation="horizontal" />
-      <Table className="text-xs">
+      <Table className="whitespace-nowrap text-xs">
         {servers.length === 0 && <TableCaption>No servers</TableCaption>}
         <TableHeader>
           <TableRow>

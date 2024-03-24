@@ -6,11 +6,14 @@
  */
 import { mainWindow } from "../index.js";
 import { sampInfo } from "../utils/samp/index.js";
+import { ServerInfo } from "../utils/samp/types.js";
 import { ipcMain } from "electron";
-import Store from "electron-store";
+import ElectronStore from "electron-store";
 
 const queue = new Set<string>();
-const processed = new Store();
+const processed = new ElectronStore<Record<string, ServerInfo | null>>({
+  name: "servers-info",
+});
 let isProcessing = false;
 
 const hex = (text: string) => Buffer.from(text, "utf8").toString("hex");

@@ -7,9 +7,11 @@
 import "./ipc-handlers/index.js";
 import electron from "electron";
 import serve from "electron-serve";
+import ElectronStore from "electron-store";
 import path from "path";
 import { updateElectronApp } from "update-electron-app";
 
+const store = new ElectronStore();
 const { app, BrowserWindow } = electron;
 
 /**
@@ -38,15 +40,17 @@ const appServe = serve({
 let mainWindow: electron.BrowserWindow | null = null;
 
 function createWindow() {
+  const bounds = store.get("win-bounds") as Electron.Rectangle;
+
   mainWindow = new BrowserWindow({
+    ...bounds,
+    show: false,
     minWidth: 800,
     minHeight: 600,
-    width: 800,
-    height: 600,
     frame: true,
     titleBarStyle: "hidden",
     titleBarOverlay: {
-      symbolColor: "white",
+      symbolColor: "#777",
       color: "rgba(0,0,0,0)",
     },
     webPreferences: {
@@ -63,6 +67,31 @@ function createWindow() {
   } else {
     void mainWindow.loadURL("http://localhost:3000");
   }
+
+  /**
+   * Show window when ready
+   */
+  mainWindow.once("ready-to-show", () => {
+    mainWindow?.show();
+  });
+
+  /**
+   * Focus on show
+   */
+
+  mainWindow.on("show", () => {
+    app.focus();
+  });
+
+  /**
+   * Save bounds
+   */
+  mainWindow.on("close", () => {
+    const bounds = mainWindow?.getBounds();
+    if (bounds) {
+      store.set("win-bounds", bounds);
+    }
+  });
 
   mainWindow.on("closed", () => {
     mainWindow = null;

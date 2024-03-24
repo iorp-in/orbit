@@ -24,7 +24,10 @@ import {
   serverFavoritesAtom,
   serverFavoritesAtomReducer,
 } from "@/atoms/server/favorites";
-import { serverSearchFilterAtom } from "@/atoms/server/filters";
+import {
+  isServerFilterAppliedAtom,
+  serverSearchFilterAtom,
+} from "@/atoms/server/filters";
 import { serverAtom } from "@/atoms/server/server";
 import { serversAtom } from "@/atoms/server/servers";
 import { usernameAtom } from "@/atoms/username";
@@ -49,6 +52,7 @@ export default function TopNav() {
   const server = useAtomValue(serverAtom);
   const servers = useAtomValue(serversAtom);
   const folder = useAtomValue(GTAFolderAtom);
+  const isFilterApplied = useAtomValue(isServerFilterAppliedAtom);
   const setSearch = useSetAtom(serverSearchFilterAtom);
 
   const [username, setUsername] = useAtom(usernameAtom);
@@ -129,7 +133,7 @@ export default function TopNav() {
     <div className="flex items-center gap-2">
       <Input
         placeholder="Search server"
-        className="max-w-[150px]"
+        className="max-w-[150px] shadow-none"
         onChange={(e) => {
           setSearch(e.target.value);
         }}
@@ -214,7 +218,7 @@ export default function TopNav() {
       <span className="flex-1" />
       <Input
         placeholder="Nickname"
-        className="max-w-[150px]"
+        className="max-w-[150px] shadow-none"
         value={username}
         onChange={(e) => {
           setUsername(e.target.value);
@@ -226,7 +230,14 @@ export default function TopNav() {
           <Tooltip>
             <TooltipTrigger asChild>
               <div className="flex h-full w-full items-center justify-center">
-                <MixerHorizontalIcon className="h-4 w-4" />
+                <div className="relative">
+                  <MixerHorizontalIcon className="h-4 w-4" />
+                  {isFilterApplied && (
+                    <sup className="absolute -right-1 -top-1">
+                      <div className="h-1 w-1 rounded-full bg-blue-400" />
+                    </sup>
+                  )}
+                </div>
               </div>
             </TooltipTrigger>
             <TooltipContent>
