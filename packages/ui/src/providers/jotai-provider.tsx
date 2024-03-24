@@ -8,7 +8,7 @@
  */
 import { Provider } from "jotai";
 
-export default function RecoilProvider({
+export default function JotaiProvider({
   children,
 }: {
   children: React.ReactNode;

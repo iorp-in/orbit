@@ -9,7 +9,7 @@ import ServerUpdate from "@/components/effects/server-update";
 import TitleBar from "@/components/molecules/title-bar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import RecoilProvider from "@/providers/jotai-provider";
+import JotaiProvider from "@/providers/jotai-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
@@ -37,7 +37,7 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
-        <RecoilProvider>
+        <JotaiProvider>
           <ServerUpdate />
           <ThemeProvider
             attribute="class"
@@ -48,7 +48,7 @@ export default function RootLayout({
             <TitleBar />
             <TooltipProvider>{children}</TooltipProvider>
           </ThemeProvider>
-        </RecoilProvider>
+        </JotaiProvider>
       </body>
     </html>
   );

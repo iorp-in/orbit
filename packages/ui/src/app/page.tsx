@@ -17,11 +17,8 @@ import {
 } from "@/components/ui/resizable";
 import useWidthPercentage from "@/lib/width";
 import React from "react";
-import { ImperativePanelGroupHandle } from "react-resizable-panels";
 
 export default function Page() {
-  const ref = React.createRef<ImperativePanelGroupHandle>();
-
   const leftMinSize = useWidthPercentage(160, 0);
   const rightMinSize = useWidthPercentage(200, 0);
 
@@ -49,7 +46,7 @@ export default function Page() {
       <div className="border-b p-2 pt-10">
         <TopNav />
       </div>
-      <ResizablePanelGroup direction="horizontal" ref={ref}>
+      <ResizablePanelGroup direction="horizontal">
         <ResizablePanel
           defaultSize={leftMinSize}
           minSize={leftMinSize}
