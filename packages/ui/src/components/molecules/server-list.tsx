@@ -19,6 +19,7 @@ import {
 import api from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { ServerInfo } from "@/types/server-info";
+import { LockClosedIcon, LockOpen1Icon } from "@radix-ui/react-icons";
 import { useAtom, useAtomValue } from "jotai";
 import React from "react";
 
@@ -32,8 +33,16 @@ const ServerRow = ({
   const [selected, setSelected] = useAtom(serverIndexAtom);
 
   const isSelected = selected === index;
-  const { address, hostname, online, maxplayers, gamemode, mapname, ping } =
-    server;
+  const {
+    address,
+    hostname,
+    online,
+    maxplayers,
+    gamemode,
+    mapname,
+    ping,
+    passworded = false,
+  } = server;
 
   return (
     <TableRow
@@ -46,6 +55,13 @@ const ServerRow = ({
         "text-muted-foreground": !isSelected,
       })}
     >
+      <TableCell>
+        {passworded ? (
+          <LockClosedIcon className="h-4 w-4 text-red-400" />
+        ) : (
+          <LockOpen1Icon className="h-4 w-4 text-green-400" />
+        )}
+      </TableCell>
       <TableCell>{hostname ?? address}</TableCell>
       <TableCell>
         {online !== undefined && maxplayers !== undefined
@@ -80,6 +96,7 @@ export default function ServerList() {
         {servers.length === 0 && <TableCaption>No servers</TableCaption>}
         <TableHeader>
           <TableRow>
+            <TableHead></TableHead>
             <TableHead>HostName</TableHead>
             <TableHead>Players</TableHead>
             <TableHead>Ping</TableHead>
