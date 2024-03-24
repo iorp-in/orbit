@@ -15,21 +15,46 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import useWidthPercentage from "@/lib/width";
 import React from "react";
-import { PanelGroupOnLayout } from "react-resizable-panels";
+import { ImperativePanelGroupHandle } from "react-resizable-panels";
 
 export default function Page() {
-  const onLayout: PanelGroupOnLayout = (layout) => {
-    layout;
-  };
+  const ref = React.createRef<ImperativePanelGroupHandle>();
+
+  const leftMinSize = useWidthPercentage(160, 0);
+  const rightMinSize = useWidthPercentage(200, 0);
+
+  const [windowResized, setWindowResized] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setWindowResized(true);
+      setTimeout(() => {
+        setWindowResized(false);
+      }, 200);
+    };
+
+    // Listen for resize
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup function to remove the event listener
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen">
       <div className="border-b p-2 pt-10">
         <TopNav />
       </div>
-      <ResizablePanelGroup direction="horizontal" onLayout={onLayout}>
-        <ResizablePanel defaultSize={20}>
+      <ResizablePanelGroup direction="horizontal" ref={ref}>
+        <ResizablePanel
+          defaultSize={leftMinSize}
+          minSize={leftMinSize}
+          maxSize={windowResized ? leftMinSize : undefined}
+        >
           <Sidebar />
         </ResizablePanel>
         <ResizableHandle withHandle />
@@ -37,7 +62,11 @@ export default function Page() {
           <ServerList />
         </ResizablePanel>
         <ResizableHandle withHandle />
-        <ResizablePanel defaultSize={20}>
+        <ResizablePanel
+          defaultSize={rightMinSize}
+          minSize={rightMinSize}
+          maxSize={windowResized ? leftMinSize : undefined}
+        >
           <ServerInfo />
         </ResizablePanel>
       </ResizablePanelGroup>
