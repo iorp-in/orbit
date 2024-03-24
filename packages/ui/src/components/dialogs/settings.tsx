@@ -50,8 +50,8 @@ export default function SettingsPopup({
         return;
       }
 
-      const gta_sa = `${folder}\\gta_sa.exe`;
-      const samp = `${folder}\\samp.exe`;
+      const gta_sa = `${selectedFolder}\\gta_sa.exe`;
+      const samp = `${selectedFolder}\\samp.exe`;
 
       const isGtaSaExist = await api?.invoke("path-exist", gta_sa);
       const isSampExist = await api?.invoke("path-exist", samp);
