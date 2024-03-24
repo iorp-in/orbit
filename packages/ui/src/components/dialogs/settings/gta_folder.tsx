@@ -4,17 +4,10 @@
  * Licensed under the Apache License. See License.txt in the project root for license information.
  * --------------------------------------------------------------------------------------------------------
  */
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
+import { Input } from "../../ui/input";
+import { Label } from "../../ui/label";
 import { GTAFolderAtom } from "@/atoms/gta-folder";
 import { Button } from "@/components/ui/button";
-import {
-  DialogHeader,
-  DialogTitle,
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-} from "@/components/ui/dialog";
 import api from "@/lib/api";
 import { Alert } from "@/lib/dialog";
 import { selectFolder } from "@/lib/electron";
@@ -22,11 +15,7 @@ import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import { useAtom } from "jotai";
 import React from "react";
 
-export default function SettingsPopup({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function GTAFolderSetting() {
   const [folder, setFolder] = useAtom(GTAFolderAtom);
 
   const openFolder = async () => {
@@ -81,34 +70,26 @@ export default function SettingsPopup({
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Settings</DialogTitle>
-        </DialogHeader>
-        <div className="space-y-2 py-4">
-          <Label>Sa-MP Installation Location</Label>
-          <div className="flex items-center gap-2">
-            <Input placeholder={folder} readOnly />
-            <button
-              onClick={() => {
-                void openFolder();
-              }}
-            >
-              <ExternalLinkIcon className="h-5 w-5" />
-            </button>
-          </div>
-          <Button
-            size="sm"
-            onClick={() => {
-              void handleFolderSelection();
-            }}
-          >
-            Change
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+    <div className="space-y-2 py-4">
+      <Label>Sa-MP Installation Location</Label>
+      <div className="flex items-center gap-2">
+        <Input placeholder={folder} readOnly />
+        <button
+          onClick={() => {
+            void openFolder();
+          }}
+        >
+          <ExternalLinkIcon className="h-5 w-5" />
+        </button>
+      </div>
+      <Button
+        size="sm"
+        onClick={() => {
+          void handleFolderSelection();
+        }}
+      >
+        Change
+      </Button>
+    </div>
   );
 }
