@@ -6,7 +6,6 @@
  */
 import { serverIndexAtom } from "@/atoms/server";
 import { serversFilteredAtom } from "@/atoms/server/servers";
-import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   Table,
@@ -52,30 +51,30 @@ const columns: ColumnDef<ServerInfo>[] = [
   {
     id: "hostname",
     header: ({ column }) => (
-      <Button
-        variant="ghost"
+      <button
+        className="hover:bg-muted flex items-center rounded-md p-2"
         onClick={() => {
           column.toggleSorting(column.getIsSorted() === "asc");
         }}
       >
         HostName
         <CaretSortIcon className="ml-2 h-4 w-4" />
-      </Button>
+      </button>
     ),
     accessorFn: (data) => data.hostname ?? data.address,
   },
   {
     id: "players",
     header: ({ column }) => (
-      <Button
-        variant="ghost"
+      <button
+        className="hover:bg-muted flex items-center rounded-md p-2"
         onClick={() => {
           column.toggleSorting(column.getIsSorted() === "asc");
         }}
       >
         Players
         <CaretSortIcon className="ml-2 h-4 w-4" />
-      </Button>
+      </button>
     ),
     accessorFn: ({ online, maxplayers }) =>
       online !== undefined && maxplayers !== undefined
@@ -85,15 +84,15 @@ const columns: ColumnDef<ServerInfo>[] = [
   {
     id: "ping",
     header: ({ column }) => (
-      <Button
-        variant="ghost"
+      <button
+        className="hover:bg-muted flex items-center rounded-md p-2"
         onClick={() => {
           column.toggleSorting(column.getIsSorted() === "asc");
         }}
       >
         Ping
         <CaretSortIcon className="ml-2 h-4 w-4" />
-      </Button>
+      </button>
     ),
     accessorFn: (data) => data.ping ?? "-",
     enableSorting: true,
@@ -101,30 +100,30 @@ const columns: ColumnDef<ServerInfo>[] = [
   {
     id: "mode",
     header: ({ column }) => (
-      <Button
-        variant="ghost"
+      <button
+        className="hover:bg-muted flex items-center rounded-md p-2"
         onClick={() => {
           column.toggleSorting(column.getIsSorted() === "asc");
         }}
       >
         Mode
         <CaretSortIcon className="ml-2 h-4 w-4" />
-      </Button>
+      </button>
     ),
     accessorFn: (data) => data.gamemode ?? "-",
   },
   {
     id: "language",
     header: ({ column }) => (
-      <Button
-        variant="ghost"
+      <button
+        className="hover:bg-muted flex items-center rounded-md p-2"
         onClick={() => {
           column.toggleSorting(column.getIsSorted() === "asc");
         }}
       >
         Language
         <CaretSortIcon className="ml-2 h-4 w-4" />
-      </Button>
+      </button>
     ),
     accessorFn: (data) => data.mapname ?? "-",
   },
