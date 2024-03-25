@@ -59,7 +59,7 @@ const RenderDialog = ({
         onClose(null);
       }}
     >
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:sm:max-w-md">
         <Form {...form}>
           {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <form onSubmit={form.handleSubmit(handleSubmit)}>

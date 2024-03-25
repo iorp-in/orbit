@@ -12,7 +12,13 @@ import { launchSamp } from "./electron";
 import { DefaultGtaFolder } from "@/atoms/gta-folder";
 import { ServerInfo } from "@/types/server-info";
 
-export const connectServer = async (server: ServerInfo) => {
+export const connectServer = async (
+  server: ServerInfo,
+  { password, rconPassword }: { password?: string; rconPassword?: string } = {
+    password: undefined,
+    rconPassword: undefined,
+  },
+) => {
   try {
     const folder = localStorage.getItem("gta-folder") ?? DefaultGtaFolder;
     const username = localStorage.getItem("username")?.replaceAll('"', "");
@@ -44,6 +50,8 @@ export const connectServer = async (server: ServerInfo) => {
       username,
       gta_sa,
       samp,
+      password,
+      rconPassword,
     });
   } catch (error) {
     console.error("Error occurred during folder selection:", error);

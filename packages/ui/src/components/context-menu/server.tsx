@@ -4,6 +4,7 @@
  * Licensed under the Apache License. See License.txt in the project root for license information.
  * --------------------------------------------------------------------------------------------------------
  */
+import ServerInfoDialog from "../dialogs/server-info";
 import { DefaultGroupKey, groupIndexAtom } from "@/atoms/group";
 import {
   GroupActionType,
@@ -48,6 +49,8 @@ export default function ServerContextMenu({
     serverFavoritesAtomReducer,
   );
 
+  const [infoDialog, setInfoDialog] = React.useState(false);
+
   const handleConnect = () => {
     void connectServer(server);
     toast.success(`Connecting to ${server.hostname ?? server.address}`);
@@ -84,22 +87,39 @@ export default function ServerContextMenu({
   };
 
   return (
-    <ContextMenu>
-      <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
-      <ContextMenuContent>
-        <ContextMenuItem onClick={handleConnect}>Connect</ContextMenuItem>
-        <ContextMenuSeparator />
-        <ContextMenuItem disabled={isFavorites} onClick={handleAddToFavorites}>
-          Add to favorites
-        </ContextMenuItem>
-        <ContextMenuItem disabled={isHosted} onClick={handleDelete}>
-          Delete server
-        </ContextMenuItem>
-        <ContextMenuSeparator />
-        <ContextMenuItem onClick={handleCopyServerAddress}>
-          Copy server address
-        </ContextMenuItem>
-      </ContextMenuContent>
-    </ContextMenu>
+    <>
+      <ServerInfoDialog
+        open={infoDialog}
+        onOpenChange={setInfoDialog}
+        server={server}
+      />
+      <ContextMenu>
+        <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
+        <ContextMenuContent>
+          <ContextMenuItem onClick={handleConnect}>Connect</ContextMenuItem>
+          <ContextMenuSeparator />
+          <ContextMenuItem
+            disabled={isFavorites}
+            onClick={handleAddToFavorites}
+          >
+            Add to favorites
+          </ContextMenuItem>
+          <ContextMenuItem disabled={isHosted} onClick={handleDelete}>
+            Delete server
+          </ContextMenuItem>
+          <ContextMenuSeparator />
+          <ContextMenuItem onClick={handleCopyServerAddress}>
+            Copy server address
+          </ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              setInfoDialog(true);
+            }}
+          >
+            Server properties
+          </ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenu>
+    </>
   );
 }
