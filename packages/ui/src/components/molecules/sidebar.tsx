@@ -4,7 +4,7 @@
  * Licensed under the Apache License. See License.txt in the project root for license information.
  * --------------------------------------------------------------------------------------------------------
  */
-import GroupContextMenu from "../context-menu/group-context-menu";
+import GroupContextMenu from "../context-menu/group";
 import { ScrollArea } from "../ui/scroll-area";
 import { DefaultGroupKey, groupIndexAtom } from "@/atoms/group";
 import { groupsAtom } from "@/atoms/group/groups";

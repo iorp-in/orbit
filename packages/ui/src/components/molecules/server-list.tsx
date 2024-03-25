@@ -4,6 +4,7 @@
  * Licensed under the Apache License. See License.txt in the project root for license information.
  * --------------------------------------------------------------------------------------------------------
  */
+import ServerContextMenu from "../context-menu/server";
 import { serverIndexAtom } from "@/atoms/server";
 import { serversFilteredAtom } from "@/atoms/server/servers";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -185,24 +186,32 @@ export default function ServerList() {
         <TableBody>
           {table.getRowModel().rows.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow
+              <ServerContextMenu
+                server={row.original}
+                serverIndex={row.index}
                 key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-                className={cn(
-                  serverIndex === row.index
-                    ? "bg-muted"
-                    : "text-muted-foreground",
-                )}
-                onClick={() => {
-                  setServerIndex(row.index);
-                }}
               >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
+                <TableRow
+                  data-state={row.getIsSelected() && "selected"}
+                  className={cn(
+                    serverIndex === row.index
+                      ? "bg-muted"
+                      : "text-muted-foreground",
+                  )}
+                  onClick={() => {
+                    setServerIndex(row.index);
+                  }}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </ServerContextMenu>
             ))
           ) : (
             <TableRow>

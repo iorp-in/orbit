@@ -17,7 +17,6 @@ import {
   groupsAtom,
   GroupActionType,
 } from "@/atoms/group/groups";
-import { GTAFolderAtom } from "@/atoms/gta-folder";
 import { serverIndexAtom } from "@/atoms/server";
 import {
   FavoritesServerActionType,
@@ -32,8 +31,7 @@ import { serverAtom } from "@/atoms/server/server";
 import { serversAtom } from "@/atoms/server/servers";
 import { usernameAtom } from "@/atoms/username";
 import api from "@/lib/api";
-import { Alert } from "@/lib/dialog";
-import { launchSamp } from "@/lib/electron";
+import { connectServer } from "@/lib/samp";
 import {
   GearIcon,
   InfoCircledIcon,
@@ -45,13 +43,13 @@ import {
 } from "@radix-ui/react-icons";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useReducerAtom } from "jotai/utils";
+import { toast } from "sonner";
 
 export default function TopNav() {
   const serverIndex = useAtomValue(serverIndexAtom);
   const groupIndex = useAtomValue(groupIndexAtom);
   const server = useAtomValue(serverAtom);
   const servers = useAtomValue(serversAtom);
-  const folder = useAtomValue(GTAFolderAtom);
   const isFilterApplied = useAtomValue(isServerFilterAppliedAtom);
   const setSearch = useSetAtom(serverSearchFilterAtom);
 
@@ -67,44 +65,10 @@ export default function TopNav() {
   const canDelete = server !== null && !isHosted;
   const canConnect = server !== null;
 
-  const handleConnect = async () => {
-    try {
-      if (!server) {
-        return;
-      }
-
-      const gta_sa = `${folder}\\gta_sa.exe`;
-      const samp = `${folder}\\samp.exe`;
-
-      const isGtaSaExist = await api?.invoke("path-exist", gta_sa);
-      const isSampExist = await api?.invoke("path-exist", samp);
-
-      if (!isGtaSaExist) {
-        throw new Error("GTA_SA.EXE not found in the selected folder.");
-      }
-
-      if (!isSampExist) {
-        throw new Error("SAMP.EXE not found in the selected folder.");
-      }
-
-      await launchSamp({
-        address: server.address,
-        username,
-        gta_sa,
-        samp,
-      });
-    } catch (error) {
-      console.error("Error occurred during folder selection:", error);
-      let errorMessage = "An unknown error occurred.";
-      if (error instanceof Error && error.message) {
-        errorMessage = error.message;
-      }
-
-      void Alert({
-        title: "Error",
-        description: errorMessage,
-        showCancel: false,
-      });
+  const handleConnect = () => {
+    if (server) {
+      void connectServer(server);
+      toast.success(`Connecting to ${server.hostname ?? server.address}`);
     }
   };
 
@@ -112,6 +76,7 @@ export default function TopNav() {
     servers.forEach((address) => {
       void api?.invoke("server-info", address, true);
     });
+    toast.success("Updating all server");
   };
 
   const handleDelete = () => {
@@ -126,6 +91,10 @@ export default function TopNav() {
         serverId: serverIndex,
         type: GroupActionType.REMOVE_SERVER,
       });
+    }
+
+    if (server) {
+      toast.success(`Deleted ${server.hostname ?? server.address}`);
     }
   };
 
@@ -143,9 +112,7 @@ export default function TopNav() {
         size="sm"
         variant="ghost"
         disabled={!canConnect}
-        onClick={() => {
-          void handleConnect();
-        }}
+        onClick={handleConnect}
       >
         <PlayIcon className="mr-2 h-4 w-4" />
         <span>Connect</span>

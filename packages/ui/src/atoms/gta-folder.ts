@@ -6,7 +6,6 @@
  */
 import { atomWithStorage } from "jotai/utils";
 
-export const GTAFolderAtom = atomWithStorage(
-  "gta-folder",
-  "C:\\Program Files (x86)\\GTA San Andreas",
-);
+export const DefaultGtaFolder = "C:\\Program Files (x86)\\GTA San Andreas";
+
+export const GTAFolderAtom = atomWithStorage("gta-folder", DefaultGtaFolder);

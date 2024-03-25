@@ -7,6 +7,7 @@
 import "./globals.css";
 import ServerUpdate from "@/components/effects/server-update";
 import TitleBar from "@/components/molecules/title-bar";
+import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import JotaiProvider from "@/providers/jotai-provider";
@@ -47,6 +48,7 @@ export default function RootLayout({
           >
             <TitleBar />
             <TooltipProvider>{children}</TooltipProvider>
+            <Toaster position="bottom-center" richColors />
           </ThemeProvider>
         </JotaiProvider>
       </body>
