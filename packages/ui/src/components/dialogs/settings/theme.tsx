@@ -18,6 +18,7 @@ export default function ThemeSetting() {
           onClick={() => {
             setTheme("system");
           }}
+          size="sm"
         >
           System
         </Button>
@@ -26,6 +27,7 @@ export default function ThemeSetting() {
           onClick={() => {
             setTheme("dark");
           }}
+          size="sm"
         >
           Dark
         </Button>
@@ -34,6 +36,7 @@ export default function ThemeSetting() {
           onClick={() => {
             setTheme("light");
           }}
+          size="sm"
         >
           Light
         </Button>
