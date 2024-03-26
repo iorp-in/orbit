@@ -20,6 +20,9 @@ export default function ServerUpdate() {
   const servers = useAtomValue(serversAtom);
   const server = useAtomValue(serverAtom);
 
+  /**
+   * Refresh servers when server list change
+   */
   const Refresh = useCallback(async () => {
     for await (const address of servers) {
       const resp = await api?.invoke("server-info", address);
@@ -32,12 +35,18 @@ export default function ServerUpdate() {
     }
   }, [servers, store]);
 
+  /**
+   * Reset a processing queue
+   */
   React.useEffect(() => {
     api?.send("server-info-reset-queue");
 
     void Refresh();
   }, [store, servers, Refresh]);
 
+  /**
+   * Update selected server every 2 second
+   */
   React.useEffect(() => {
     const intervalId = setInterval(() => {
       if (server) {
@@ -50,6 +59,9 @@ export default function ServerUpdate() {
     };
   }, [server]);
 
+  /**
+   * Set server info, when received
+   */
   React.useEffect(() => {
     const removeEventListener = api?.receive(
       "server-info",

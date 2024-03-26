@@ -15,10 +15,11 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import useIsClient from "@/lib/is-client";
 import useWidthPercentage from "@/lib/width";
 import React from "react";
 
-export default function Page() {
+function PageView() {
   const leftMinSize = useWidthPercentage(160, 0);
   const rightMinSize = useWidthPercentage(200, 0);
 
@@ -69,4 +70,14 @@ export default function Page() {
       </ResizablePanelGroup>
     </div>
   );
+}
+
+export default function Page() {
+  const isClient = useIsClient();
+
+  if (!isClient) {
+    return <></>;
+  }
+
+  return <PageView />;
 }
