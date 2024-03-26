@@ -23,10 +23,7 @@ const TitleBar = () => {
   };
 
   return (
-    <div
-      id="title-bar"
-      className="bg-muted absolute top-0 z-10 h-8 w-full px-2"
-    >
+    <div id="title-bar" className="absolute top-0 z-10 h-8 w-full px-2">
       <div className="flex h-full items-center gap-2">
         <img alt="logo" src="/icon.png" className="h-5 w-5" />
         <span className="text-xs font-semibold">Orbit Launcher</span>
