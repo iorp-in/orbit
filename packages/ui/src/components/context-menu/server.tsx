@@ -43,6 +43,27 @@ export default function ServerContextMenu({
   const isFavorites = groupIndex === DefaultGroupKey.Favorites;
   const isHosted = groupIndex === DefaultGroupKey.Hosted;
 
+  const clickCountRef = React.useRef(0);
+
+  const handleClick = () => {
+    // Increment click count
+    clickCountRef.current++;
+
+    // Check if it's a double click
+    if (clickCountRef.current === 2) {
+      // It's a double click
+      setInfoDialog(true);
+
+      // Reset click count
+      clickCountRef.current = 0;
+    }
+
+    // Reset click count
+    setTimeout(() => {
+      clickCountRef.current = 0;
+    }, 500);
+  };
+
   const [, groupsDispatch] = useReducerAtom(groupsAtom, groupsAtomReducer);
   const [, favoritesDispatch] = useReducerAtom(
     serverFavoritesAtom,
@@ -94,7 +115,9 @@ export default function ServerContextMenu({
         server={server}
       />
       <ContextMenu>
-        <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
+        <ContextMenuTrigger onClick={handleClick} asChild>
+          {children}
+        </ContextMenuTrigger>
         <ContextMenuContent>
           <ContextMenuItem onClick={handleConnect}>Connect</ContextMenuItem>
           <ContextMenuSeparator />
