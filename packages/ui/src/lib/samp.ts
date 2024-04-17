@@ -9,30 +9,34 @@
 import api from "./api";
 import { Alert } from "./dialog";
 import { launchSamp } from "./electron";
-import { DefaultGtaFolder } from "@/atoms/gta-folder";
 import { ServerInfo } from "@/types/server-info";
 
-export const connectServer = async (
-  server: ServerInfo,
-  { password, rconPassword }: { password?: string; rconPassword?: string } = {
-    password: undefined,
-    rconPassword: undefined,
-  },
-) => {
-  try {
-    const folder = localStorage.getItem("gta-folder") ?? DefaultGtaFolder;
-    const username = localStorage.getItem("username")?.replaceAll('"', "");
+interface ConnectServer {
+  gta_folder: string;
+  password?: string;
+  rconPassword?: string;
+  server: ServerInfo;
+  username: string;
+}
 
-    if (!folder || folder.length === 0) {
+export const connectServer = async ({
+  gta_folder,
+  password,
+  rconPassword,
+  server,
+  username,
+}: ConnectServer) => {
+  try {
+    if (gta_folder.length === 0) {
       throw new Error("Please select gta folder in settings.");
     }
 
-    if (!username || username.length === 0) {
+    if (username.length === 0) {
       throw new Error("Please set your username.");
     }
 
-    const gta_sa = `${folder}\\gta_sa.exe`;
-    const samp = `${folder}\\samp.exe`;
+    const gta_sa = `${gta_folder}\\gta_sa.exe`;
+    const samp = `${gta_folder}\\samp.exe`;
 
     const isGtaSaExist = await api?.invoke("path-exist", gta_sa);
     const isSampExist = await api?.invoke("path-exist", samp);

@@ -11,11 +11,13 @@ import {
   groupsAtom,
   groupsAtomReducer,
 } from "@/atoms/group/groups";
+import { GTAFolderAtom } from "@/atoms/gta-folder";
 import {
   FavoritesServerActionType,
   serverFavoritesAtom,
   serverFavoritesAtomReducer,
 } from "@/atoms/server/favorites";
+import { usernameAtom } from "@/atoms/username";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -39,6 +41,8 @@ export default function ServerContextMenu({
   server: ServerInfo;
   serverIndex: number;
 }) {
+  const gta_folder = useAtomValue(GTAFolderAtom);
+  const username = useAtomValue(usernameAtom);
   const groupIndex = useAtomValue(groupIndexAtom);
   const isFavorites = groupIndex === DefaultGroupKey.Favorites;
   const isHosted = groupIndex === DefaultGroupKey.Hosted;
@@ -73,7 +77,11 @@ export default function ServerContextMenu({
   const [infoDialog, setInfoDialog] = React.useState(false);
 
   const handleConnect = () => {
-    void connectServer(server);
+    void connectServer({
+      gta_folder,
+      username,
+      server,
+    });
     toast.success(`Connecting to ${server.hostname ?? server.address}`);
   };
 

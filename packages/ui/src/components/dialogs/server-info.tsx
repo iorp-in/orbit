@@ -11,6 +11,8 @@ import {
   FormItem,
   FormMessage,
 } from "../ui/form";
+import { GTAFolderAtom } from "@/atoms/gta-folder";
+import { usernameAtom } from "@/atoms/username";
 import { Button } from "@/components/ui/button";
 import {
   DialogHeader,
@@ -23,6 +25,7 @@ import { Input } from "@/components/ui/input";
 import { connectServer } from "@/lib/samp";
 import { ServerInfo } from "@/types/server-info";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAtomValue } from "jotai";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -42,6 +45,9 @@ export default function ServerInfoDialog({
   open: boolean;
   server: ServerInfo;
 }) {
+  const gta_folder = useAtomValue(GTAFolderAtom);
+  const username = useAtomValue(usernameAtom);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,7 +62,13 @@ export default function ServerInfoDialog({
   }: z.infer<typeof formSchema>) => {
     onOpenChange(false);
     toast.success(`Connecting to ${server.hostname ?? server.address}`);
-    void connectServer(server, { password, rconPassword });
+    void connectServer({
+      gta_folder,
+      password,
+      rconPassword,
+      server,
+      username,
+    });
   };
 
   const players =

@@ -17,6 +17,7 @@ import {
   groupsAtom,
   GroupActionType,
 } from "@/atoms/group/groups";
+import { GTAFolderAtom } from "@/atoms/gta-folder";
 import { serverIndexAtom } from "@/atoms/server";
 import {
   FavoritesServerActionType,
@@ -46,6 +47,7 @@ import { useReducerAtom } from "jotai/utils";
 import { toast } from "sonner";
 
 export default function TopNav() {
+  const gta_folder = useAtomValue(GTAFolderAtom);
   const serverIndex = useAtomValue(serverIndexAtom);
   const groupIndex = useAtomValue(groupIndexAtom);
   const server = useAtomValue(serverAtom);
@@ -67,7 +69,7 @@ export default function TopNav() {
 
   const handleConnect = () => {
     if (server) {
-      void connectServer(server);
+      void connectServer({ gta_folder, server, username });
       toast.success(`Connecting to ${server.hostname ?? server.address}`);
     }
   };
